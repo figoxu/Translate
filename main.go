@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-// ./Translate -input=/home/zmy/newsda/workspace/Translate/java -output=/home/zmy/newsda/workspace/Translate/ts/Campaign.ts
+// ./Translate -input=/home/zmy/newsda/workspace/Translate/java -output=/home/zmy/newsda/workspace/Translate/ts/crowd.model.ts
 func main() {
 	javaDir := flag.String("input", "", "java dir for translate")
 	outfile := flag.String("output", "", "output typescript filename")
@@ -43,7 +43,7 @@ func parse2ts(content, name string) string {
 		ProcessReg: []string{".+serialVersionUID.+", "private ", ";"},
 	}
 	results := parser.Exe(content)
-	result := fmt.Sprintln("export class ", name, "{")
+	result := fmt.Sprintln("import {BaseModel} from \"../base.model\";\n", "export class ", name, " extends BaseModel{")
 	for _, v := range results {
 		vs := strings.Split(v, " ")
 		result = fmt.Sprintln(result, "\t\t", vs[1], "\t:", parseJava2TsTp(vs[0]), ";")
